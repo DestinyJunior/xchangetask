@@ -1,75 +1,114 @@
 import { useState } from "react";
+import AuthService from "../../services/auth"
+import { Redirect } from "react-router-dom";
+
+
 
 function Login() {
-  const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-  const loginUser = () => {
-    console.log("clicked");
-    setIsLoading(true);
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 4000);
-  };
 
-  return (
-    <div
-      class="fixed z-10 inset-0 overflow-y-auto"
-      aria-labelledby="modal-title"
-      role="dialog"
-      aria-modal="true"
-    >
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    const loginUser = (e) => {
+        e.preventDefault();
+        console.log("clicked");
+        setIsLoading(true);
+        console.log({ email, password })
+
+        var data = {
+            email: email,
+            password: password
+        }
+        AuthService.adminLogin(data).then(res => {
+            console.log(res)
+            setIsLoading(false);
+
+            window.location = '/dashboard'
+        }).catch(err => {
+            console.log(err)
+            setIsLoading(false);
+        })
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+    };
+
+    if (AuthService.isLoggedIn()) {
+        return <Redirect to="/dashboard" />;
+    }
+
+    return (
         <div
-          class="fixed inset-0 bg-opacity-75 transition-opacity"
-          aria-hidden="true"
-          style={{ backgroundColor: "#282c34" }}
-        ></div>
-
-        <span
-          class="hidden sm:inline-block sm:align-middle sm:h-screen"
-          aria-hidden="true"
+            className="fixed z-10 inset-0 overflow-y-auto"
+            aria-labelledby="modal-title"
+            role="dialog"
+            aria-modal="true"
         >
-          &#8203;
+            <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div
+                    className="fixed inset-0 bg-opacity-75 transition-opacity"
+                    aria-hidden="true"
+                    style={{ backgroundColor: "#282c34" }}
+                ></div>
+
+                <span
+                    className="hidden sm:inline-block sm:align-middle sm:h-screen"
+                    aria-hidden="true"
+                >
+                    &#8203;
         </span>
 
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="bg-white w-full mx-auto py-10 px-10">
-              <div class="sm:flex flex-col sm:items-center space-y-10">
-                <h4 class="font-bold text-2xl text-green-ngo">Welcome back</h4>
-                <div class="w-full space-y-4">
-                  <div class="w-full">
-                    <input
-                      type="text"
-                      class="w-full px-4 py-2 outline-none rounded-lg border"
-                      placeholder="Your Email"
-                    />
-                  </div>
-                  <div class="w-full">
-                    <input
-                      type="password"
-                      class="w-full px-4 py-2 outline-none rounded-lg border"
-                      placeholder="Your Password"
-                    />
-                  </div>
-                </div>
+                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div className="bg-white w-full mx-auto py-10 px-10">
+                            <form method="POST">
+                                <div className="sm:flex flex-col sm:items-center space-y-10">
+                                    <h4 className="font-bold text-2xl text-green-ngo">Welcome back</h4>
 
-                <button
-                  type="button"
-                  class="bg-black text-white px-20 py-2 rounded-lg focus:outline-none"
-                  disabled={isLoading}
-                  onClick={loginUser}
-                >
-                  Sign In
-                </button>
-              </div>
+                                    <div className="w-full space-y-4">
+                                        <div className="w-full">
+                                            <input
+                                                type="text"
+                                                className="w-full px-4 py-2 outline-none rounded-lg border"
+                                                placeholder="Your Email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="w-full">
+                                            <input
+                                                type="password"
+                                                className="w-full px-4 py-2 outline-none rounded-lg border"
+                                                placeholder="Your Password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        className="bg-black text-white px-20 py-2 rounded-lg focus:outline-none disabled:bg-gray-50"
+                                        disabled={isLoading}
+                                        onClick={loginUser}
+                                    >
+                                        Sign In
+                                        </button>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+        </div >
+    );
 }
 
 export default Login;

@@ -1,10 +1,10 @@
 import Axios from "axios";
 // create an new axios http instance
 const http = Axios.create({
-    baseURL: '/api/',
-    headers: {
-        "X-Requested-With": "XMLHttpRequest",
-    }
+  baseURL: "https://xchangeapp-api.herokuapp.com/api/",
+  headers: {
+    "X-Requested-With": "XMLHttpRequest",
+  },
 });
 
 // before a request is made start  anything
