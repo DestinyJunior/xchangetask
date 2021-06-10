@@ -30,7 +30,7 @@ class AdminService {
       });
   }
 
-  async getSingleAdmin(Id) {
+  async disableAdmin(Id) {
     return await this.request
       .put("v1/admin/" + Id + "/disable", { headers: authHeader() })
       .then((response) => {

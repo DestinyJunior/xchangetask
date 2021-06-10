@@ -22,9 +22,9 @@ function Login() {
             password: password
         }
         AuthService.adminLogin(data).then(res => {
-            console.log(res)
-            setIsLoading(false);
+            // console.log(res)
 
+            setTimeout(() => { setIsLoading(false); }, 1000)
             window.location = '/dashboard'
         }).catch(err => {
             console.log(err)
@@ -97,7 +97,7 @@ function Login() {
                                         disabled={isLoading}
                                         onClick={loginUser}
                                     >
-                                        Sign In
+                                        {isLoading ? "loading..." : "Signing"}
                                         </button>
 
                                 </div>

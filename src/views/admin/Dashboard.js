@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../App.css";
 import { Redirect } from "react-router-dom";
 import { getItem } from "../../utils/storage.helper";
@@ -14,24 +14,33 @@ import TopBar from "../components/TopBar";
 function DashBoard() {
   //   console.log("dashboard");
   const [admins, setAdmins] = useState([]);
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-  if (!AuthService.isLoggedIn()) {
-    return <Redirect to="/login" />;
-  }
 
-  const { user } = getItem("u_p_d_1");
+ const { user } = getItem("u_p_d_1");
 
-  const fetchAdmins = () =>
+  
+
+  const fetchAdmins = () => {
     AdminService.getAdmins()
       .then((res) => {
-        console.log(res);
-        // setAdmins();
+        // console.log(res);
+        setAdmins(res.admins);
+        setIsLoadingPage(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsLoadingPage(false);
       });
+    }
 
-  fetchAdmins();
+      useEffect(() => {
+         if (!AuthService.isLoggedIn()) {
+           return <Redirect to="/login" />;
+         } else {
+            fetchAdmins();
+         }
+      }, []);
 
   return (
     <div className="bg-gray-100 font-family-karla flex">
@@ -48,10 +57,10 @@ function DashBoard() {
                 <table className="min-w-full bg-white">
                   <thead className="bg-gray-800 text-white">
                     <tr>
-                      <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">
+                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                         Admin
                       </th>
-                      <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">
+                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                         Role
                       </th>
                       <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
@@ -68,92 +77,57 @@ function DashBoard() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="text-gray-700">
-                    <tr>
-                      <td className="w-1/3 text-left py-3 px-4">Lian Smith</td>
-                      <td className="w-1/3 text-left py-3 px-4">
-                        Administrator
-                      </td>
-                      <td className="text-left py-3 px-4">
-                        <a
-                          className="hover:text-blue-500"
-                          href="mailto:jonsmith@mail.com"
-                        >
-                          jonsmith@mail.com
-                        </a>
-                      </td>
-                      <td className="text-left py-3 px-4">
-                        <a className="hover:text-blue-500" href="tel:622322662">
-                          622322662
-                        </a>
-                      </td>
-                      <td className="w-1/3 text-left py-3 px-4">Active</td>
-                      <td className="w-1/3 text-left py-3 px-4">Disable</td>
-                    </tr>
-                    <tr className="bg-gray-200">
-                      <td className="w-1/3 text-left py-3 px-4">Lian Smith</td>
-                      <td className="w-1/3 text-left py-3 px-4">
-                        Administrator
-                      </td>
-                      <td className="text-left py-3 px-4">
-                        <a
-                          className="hover:text-blue-500"
-                          href="mailto:jonsmith@mail.com"
-                        >
-                          jonsmith@mail.com
-                        </a>
-                      </td>
-                      <td className="text-left py-3 px-4">
-                        <a className="hover:text-blue-500" href="tel:622322662">
-                          622322662
-                        </a>
-                      </td>
-                      <td className="w-1/3 text-left py-3 px-4">Active</td>
-                      <td className="w-1/3 text-left py-3 px-4">Disable</td>
-                    </tr>
-                    <tr>
-                      <td className="w-1/3 text-left py-3 px-4">Lian Smith</td>
-                      <td className="w-1/3 text-left py-3 px-4">
-                        Administrator
-                      </td>
-                      <td className="text-left py-3 px-4">
-                        <a
-                          className="hover:text-blue-500"
-                          href="mailto:jonsmith@mail.com"
-                        >
-                          jonsmith@mail.com
-                        </a>
-                      </td>
-                      <td className="text-left py-3 px-4">
-                        <a className="hover:text-blue-500" href="tel:622322662">
-                          622322662
-                        </a>
-                      </td>
-                      <td className="w-1/3 text-left py-3 px-4">Active</td>
-                      <td className="w-1/3 text-left py-3 px-4">Disable</td>
-                    </tr>
-                    <tr className="bg-gray-200">
-                      <td className="w-1/3 text-left py-3 px-4">Lian Smith</td>
-                      <td className="w-1/3 text-left py-3 px-4">
-                        Administrator
-                      </td>
-                      <td className="text-left py-3 px-4">
-                        <a
-                          className="hover:text-blue-500"
-                          href="mailto:jonsmith@mail.com"
-                        >
-                          jonsmith@mail.com
-                        </a>
-                      </td>
-                      <td className="text-left py-3 px-4">
-                        <a className="hover:text-blue-500" href="tel:622322662">
-                          622322662
-                        </a>
-                      </td>
-                      <td className="w-1/3 text-left py-3 px-4">Active</td>
-                      <td className="w-1/3 text-left py-3 px-4">Disable</td>
-                    </tr>
-                  </tbody>
+                  {isLoadingPage && admins.length < 0 ?  (
+                    <tbody></tbody>
+                  ) : (
+                    <tbody className="text-gray-700">
+                    {admins.map((admin) => (
+                      <tr key={admin.id}>
+                        <td className="text-left py-3 px-4">{admin.name}</td>
+                        <td className="text-left py-3 px-4">{admin.role}</td>
+                        <td className="text-left py-3 px-4">
+                          <a
+                            className="hover:text-blue-500"
+                            href="mailto:jonsmith@mail.com"
+                          >
+                            {admin.email}
+                          </a>
+                        </td>
+                        <td className="text-left py-3 px-4">
+                          <a
+                            className="hover:text-blue-500"
+                            href="tel:622322662"
+                          >
+                            {admin.phone}
+                          </a>
+                        </td>
+                        <td className="text-left py-3 px-4">
+                          {admin.status === "active" ? (
+                            <span className="text-green-600 px-1 py-1 rounded">
+                              {admin.status}
+                            </span>
+                          ) : (
+                            <span className="text-red-600 px-1 py-1 rounded">
+                              {admin.status}
+                            </span>
+                          )}
+                        </td>
+                        <td className="text-left py-3 px-4">
+                          {admin.status === "active" ? (
+                            <button className="bg-red-500 text-white px-2 py-1 rounded">
+                              Disable
+                            </button>
+                          ) : (
+                            <button className="bg-blue-500 text-white px-2 py-1 rounded">
+                              Enable
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>)
+                  }
+                  
                 </table>
               </div>
             </div>
