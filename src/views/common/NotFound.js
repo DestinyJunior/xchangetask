@@ -1,12 +1,10 @@
-import logo from "../../logo.svg";
 import "../../App.css";
 
 function NotFound() {
-  console.log("404");
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <h2 className="text-9xl text-white">404</h2>
         <p className="text-blue-400">Page not Found</p>
       </header>
     </div>

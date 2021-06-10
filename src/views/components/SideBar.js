@@ -1,4 +1,6 @@
 import "../../App.css";
+import { Link } from "react-router-dom";
+
 
 function SideBar({ loginUser }) {
   return (
@@ -18,13 +20,20 @@ function SideBar({ loginUser }) {
         </button>
       </div>
       <nav className="text-white text-base font-semibold pt-3">
-        <a
-          href="index.html"
+        <Link
+          to="/dashboard"
           className="flex items-center text-white opacity-75 active-nav-link hover:opacity-100 py-4 pl-6 nav-item"
         >
           <i className="fas fa-tachometer-alt mr-3"></i>
           Dashboard
-        </a>
+        </Link>
+        <Link
+          to="/dashboard/admin/create"
+          className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
+        >
+          <i className="fas fa-user-plus mr-3"></i>
+          Add Admin
+        </Link>
       </nav>
     </aside>
   );

@@ -12,6 +12,7 @@ import TopBar from "../components/TopBar";
 // pages
 import AdminList from "./AdminList";
 import SingleAdmin from "./SingleAdmin";
+import AddAdmin from "./AddAdmin";
 import NotFound from "../common/NotFound";
 
 function DashBoard() {
@@ -32,6 +33,7 @@ function DashBoard() {
           <main className="w-full flex-grow p-6">
             <Switch>
               <Route exact path={path} component={AdminList} />
+              <Route exact path={`${path}/admin/create`} component={AddAdmin} />
               <Route
                 exact
                 path={`${path}/admin/:adminId/profile`}
@@ -45,7 +47,7 @@ function DashBoard() {
             Built by{" "}
             <a
               target="_blank"
-              href="https://davidgrzyb.com"
+              href="https://github.com/destinyjunior"
               className="underline"
             >
               DestinyJunior

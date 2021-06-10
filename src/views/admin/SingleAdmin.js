@@ -44,7 +44,7 @@ function SingleAdmin() {
                   <img
                     className="h-auto w-full mx-auto"
                     src={admin.podcast_profile.profile_image}
-                    alt="image"
+                    alt={admin.name}
                   />
                 </div>
                 <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
