@@ -1,5 +1,5 @@
 import "../../App.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 
 function SideBar({ loginUser }) {
@@ -20,20 +20,24 @@ function SideBar({ loginUser }) {
         </button>
       </div>
       <nav className="text-white text-base font-semibold pt-3">
-        <Link
+        <NavLink
+          exact
           to="/dashboard"
-          className="flex items-center text-white opacity-75 active-nav-link hover:opacity-100 py-4 pl-6 nav-item"
+          className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
+          activeClassName="active-nav-link"
         >
           <i className="fas fa-tachometer-alt mr-3"></i>
           Dashboard
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
+          exact
           to="/dashboard/admin/create"
           className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
+          activeClassName="active-nav-link"
         >
           <i className="fas fa-user-plus mr-3"></i>
           Add Admin
-        </Link>
+        </NavLink>
       </nav>
     </aside>
   );
