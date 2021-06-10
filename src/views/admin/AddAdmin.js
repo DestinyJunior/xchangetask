@@ -178,12 +178,9 @@ function AddAdmin() {
             </label>
             <input
               className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
-              id="cus_email"
-              name="cus_email"
-              type="text"
+              name="facebook"
+              type="url"
               required
-              placeholder="First name"
-              aria-label="FirstName"
             />
           </div>
           <div className="inline-block mt-2 -mx-1 pl-1 w-1/2">
@@ -192,12 +189,9 @@ function AddAdmin() {
             </label>
             <input
               className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
-              id="cus_email"
-              name="cus_email"
-              type="text"
+              name="twitter"
+              type="url"
               required
-              placeholder="Last name"
-              aria-label="Lastname"
             />
           </div>
           <div className="inline-block mt-2  pr-1 w-1/2">
@@ -206,12 +200,9 @@ function AddAdmin() {
             </label>
             <input
               className="w-full px-2  py-2 text-gray-700 bg-gray-200 rounded"
-              id="cus_email"
-              name="cus_email"
-              type="email"
+              name="instagram"
+              type="url"
               required
-              placeholder="Your Email"
-              aria-label="Email"
             />
           </div>
           <div className="inline-block mt-2 -mx-1 pl-1 w-1/2">
@@ -220,12 +211,9 @@ function AddAdmin() {
             </label>
             <input
               className="w-full px-2  py-2 text-gray-700 bg-gray-200 rounded"
-              id="cus_email"
-              name="cus_email"
-              type="tel"
-              required=""
-              placeholder="Phone number"
-              aria-label="PhoneNumber"
+              name="tiktok"
+              type="url"
+              required
             />
           </div>
           <div className="inline-block mt-2 w-1/2 pr-1">
@@ -234,12 +222,9 @@ function AddAdmin() {
             </label>
             <input
               className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
-              id="cus_email"
-              name="cus_email"
-              type="text"
+              name="youtube"
+              type="url"
               required
-              placeholder="First name"
-              aria-label="FirstName"
             />
           </div>
           <div className="inline-block mt-2 -mx-1 pl-1 w-1/2">
@@ -248,12 +233,9 @@ function AddAdmin() {
             </label>
             <input
               className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
-              id="cus_email"
-              name="cus_email"
-              type="text"
+              name="linkedin"
+              type="url"
               required
-              placeholder="Last name"
-              aria-label="Lastname"
             />
           </div>
           <div className="mt-2">
