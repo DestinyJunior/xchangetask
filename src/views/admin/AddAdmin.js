@@ -140,12 +140,12 @@ function AddAdmin() {
               aria-label="Email"
             />
           </div> */}
-          <div class="mt-2">
-            <label class=" block text-sm text-gray-600" for="message">
+          <div className="mt-2">
+            <label className=" block text-sm text-gray-600" htmlFor="message">
               About
             </label>
             <textarea
-              class="w-full px-5 py-2 text-gray-700 bg-gray-200 rounded"
+              className="w-full px-5 py-2 text-gray-700 bg-gray-200 rounded"
               id="message"
               name="message"
               rows="6"
