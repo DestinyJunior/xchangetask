@@ -102,11 +102,11 @@ function AddAdmin() {
             />
           </div>
           <p className="text-lg text-gray-800 font-medium py-4">
-            Payment information
+            Social Profile
           </p>
           <div className="">
             <label className="block text-sm text-gray-600" htmlFor="cus_name">
-              Card
+              Link
             </label>
             <input
               className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
