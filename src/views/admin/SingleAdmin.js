@@ -1,37 +1,44 @@
 import "../../App.css";
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AdminService from "../../services/admin";
 
 function SingleAdmin() {
   let { adminId } = useParams();
 
-   const [admin, setAdmin] = useState([]);
-   const [isLoadingPage, setIsLoadingPage] = useState(true);
+  const [admin, setAdmin] = useState({});
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
 
-   const fetchAdmin = () => {
-     AdminService.getSingleAdmin(adminId)
-       .then((res) => {
-         // console.log(res);
-         setAdmin(res.admin);
-         setIsLoadingPage(false);
-       })
-       .catch((err) => {
-         console.log(err);
-         setIsLoadingPage(false);
-       });
-   };
+  const fetchAdmin = () => {
+    AdminService.getSingleAdmin(adminId)
+      .then((res) => {
+        setAdmin(res.admin);
+        setIsLoadingPage(false);
+        console.log(admin, isLoadingPage);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoadingPage(false);
+
+      });
+  };
 
    useEffect(() => {
      fetchAdmin();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
-
   return (
-    <div>
-      <h1 className="text-3xl text-black pb-2">Profile</h1>
-
-      <div className="container mx-auto mt-1 mb-5 p-5">
+    <>
+      <h1 className="text-3xl text-black pb-2">
+        Profile 
+      </h1>
+      {isLoadingPage ? (
+        <div className="w-full h-full">
+          <span className="text-center text-5xl">Loading...</span>
+        </div>
+      ) : (
+        <div className="container mx-auto mt-1 mb-5 p-5">
         <div className="md:flex no-wrap md:-mx-2 ">
           <div className="w-full md:w-3/12 md:mx-2">
             <div className="bg-white p-3 border-t-4 border-green-400">
@@ -39,7 +46,7 @@ function SingleAdmin() {
                 <img
                   className="h-auto w-full mx-auto"
                   src={admin.podcast_profile.profile_image}
-                  alt=""
+                  alt="image"
                 />
               </div>
               <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
@@ -120,12 +127,11 @@ function SingleAdmin() {
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Email</div>
                     <div className="px-4 py-2">
-                      <a
+                      <span
                         className="text-blue-800"
-                        href="mailto:jane@example.com"
                       >
                         {admin.email}
-                      </a>
+                      </span>
                     </div>
                   </div>
                   <div className="grid grid-cols-2">
@@ -239,7 +245,8 @@ function SingleAdmin() {
           </div>
         </div>
       </div>
-    </div>
+      )}
+    </>
   );
 }
 
