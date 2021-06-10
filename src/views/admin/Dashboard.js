@@ -15,7 +15,7 @@ import SingleAdmin from "./SingleAdmin";
 import NotFound from "../common/NotFound";
 
 function DashBoard() {
-  let { path, url } = useRouteMatch();
+  let { path } = useRouteMatch();
 
   if (!AuthService.isLoggedIn()) {
     return <Redirect to="/login" />;

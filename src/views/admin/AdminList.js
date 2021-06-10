@@ -1,9 +1,12 @@
 import "../../App.css";
 import { useState, useEffect } from "react";
 
+import { Link, useRouteMatch } from "react-router-dom";
+
 import AdminService from "../../services/admin";
 
-function NotFound() {
+function AdminList() {
+  let { url } = useRouteMatch();
   const [admins, setAdmins] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(true);
 
@@ -27,7 +30,7 @@ function NotFound() {
   return (
     <div>
       <h1 className="text-3xl text-black pb-6">Admin List</h1>
-
+ 
       <div className="w-full mt-6">
         <p className="text-xl pb-3 flex items-center"></p>
         <div className="bg-white overflow-auto">
@@ -52,6 +55,7 @@ function NotFound() {
                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                   Action
                 </th>
+                <th className="text-left py-3 px-4 uppercase font-semibold text-sm"></th>
               </tr>
             </thead>
             {isLoadingPage ? (
@@ -117,6 +121,15 @@ function NotFound() {
                         </button>
                       )}
                     </td>
+                    <td className="text-left py-3 px-4">
+                      <Link to={`${url}/admin/${admin.id}/profile`}>
+                        
+                        
+                        Profile
+                      
+                      
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -128,4 +141,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default AdminList;
