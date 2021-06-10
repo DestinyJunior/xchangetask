@@ -23,9 +23,9 @@ function AdminList() {
       });
   };
 
-  const disableAdmin = (Id) => {
+  const disableAdmin = (data) => {
     setIsLoadingPage(true);
-    AdminService.disableAdmin(Id)
+    AdminService.disableAdmin(data)
       .then((res) => {
         // console.log(res);
         fetchAdmins();
@@ -126,13 +126,26 @@ function AdminList() {
                     <td className="text-left py-3 px-4">
                       {admin.status === "active" ? (
                         <button
-                          onClick={() => disableAdmin(admin.id)}
+                          onClick={() =>
+                            disableAdmin({
+                              Id: admin.id,
+                              status: "inactive",
+                            })
+                          }
                           className="bg-red-500 text-white px-2 py-1 rounded"
                         >
                           Disable
                         </button>
                       ) : (
-                        <button className="bg-blue-500 text-white px-2 py-1 rounded">
+                        <button
+                          onClick={() =>
+                            disableAdmin({
+                              Id: admin.id,
+                              status: "active",
+                            })
+                          }
+                          className="bg-blue-500 text-white px-2 py-1 rounded"
+                        >
                           Enable
                         </button>
                       )}

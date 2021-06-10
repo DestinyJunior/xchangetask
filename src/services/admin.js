@@ -30,11 +30,13 @@ class AdminService {
       });
   }
 
-  async disableAdmin(Id) {
+  async disableAdmin(data) {
+    // console.log(data);
+
     return await this.request
       .put(
-        "v1/admin/" + Id + "/disable",
-        { status: "inactive" },
+        "v1/admin/" + data.Id + "/disable",
+        { status: data.status },
         { headers: authHeader() }
       )
       .then((response) => {
