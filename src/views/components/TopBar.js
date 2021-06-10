@@ -8,7 +8,7 @@ function TopBar({ loginUser }) {
 
   const onMenuOpen = () => setIsMenuOpen(!isMenuOpen);
 
-  //   console.log(user);
+  // console.log(loginUser);
   const signOut = () =>
     AuthService.logout()
       .then(() => {

@@ -42,12 +42,8 @@ function App() {
           <Route exact path="/login">
             <Login />
           </Route>
-          <Route exact path="/dashboard">
-            <DashBoard />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
+          <Route path="/dashboard" component={DashBoard} />
+          <Route path="*" component={NotFound} />
         </Switch>
       </div>
     </Router>

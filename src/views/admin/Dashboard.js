@@ -1,46 +1,27 @@
-import { useState, useEffect } from "react";
 import "../../App.css";
-import { Redirect } from "react-router-dom";
+import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import { getItem } from "../../utils/storage.helper";
 
 // services
 import AuthService from "../../services/auth";
-import AdminService from "../../services/admin";
 
 // components
 import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
 
+// pages
+import AdminList from "./AdminList";
+import SingleAdmin from "./SingleAdmin";
+import NotFound from "../common/NotFound";
+
 function DashBoard() {
-  //   console.log("dashboard");
-  const [admins, setAdmins] = useState([]);
-  const [isLoadingPage, setIsLoadingPage] = useState(true);
+  let { path, url } = useRouteMatch();
 
+  if (!AuthService.isLoggedIn()) {
+    return <Redirect to="/login" />;
+  }
 
- const { user } = getItem("u_p_d_1");
-
-  
-
-  const fetchAdmins = () => {
-    AdminService.getAdmins()
-      .then((res) => {
-        // console.log(res);
-        setAdmins(res.admins);
-        setIsLoadingPage(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoadingPage(false);
-      });
-    }
-
-      useEffect(() => {
-         if (!AuthService.isLoggedIn()) {
-           return <Redirect to="/login" />;
-         } else {
-            fetchAdmins();
-         }
-      }, []);
+  const { user } = getItem("u_p_d_1");
 
   return (
     <div className="bg-gray-100 font-family-karla flex">
@@ -49,88 +30,15 @@ function DashBoard() {
         <TopBar loginUser={user} />
         <div className="w-full h-screen overflow-x-hidden border-t flex flex-col">
           <main className="w-full flex-grow p-6">
-            <h1 className="text-3xl text-black pb-6">Admin List</h1>
-
-            <div className="w-full mt-6">
-              <p className="text-xl pb-3 flex items-center"></p>
-              <div className="bg-white overflow-auto">
-                <table className="min-w-full bg-white">
-                  <thead className="bg-gray-800 text-white">
-                    <tr>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                        Admin
-                      </th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                        Role
-                      </th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                        Email Address
-                      </th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                        Phone Number
-                      </th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                        Status
-                      </th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  {isLoadingPage && admins.length < 0 ?  (
-                    <tbody></tbody>
-                  ) : (
-                    <tbody className="text-gray-700">
-                    {admins.map((admin) => (
-                      <tr key={admin.id}>
-                        <td className="text-left py-3 px-4">{admin.name}</td>
-                        <td className="text-left py-3 px-4">{admin.role}</td>
-                        <td className="text-left py-3 px-4">
-                          <a
-                            className="hover:text-blue-500"
-                            href="mailto:jonsmith@mail.com"
-                          >
-                            {admin.email}
-                          </a>
-                        </td>
-                        <td className="text-left py-3 px-4">
-                          <a
-                            className="hover:text-blue-500"
-                            href="tel:622322662"
-                          >
-                            {admin.phone}
-                          </a>
-                        </td>
-                        <td className="text-left py-3 px-4">
-                          {admin.status === "active" ? (
-                            <span className="text-green-600 px-1 py-1 rounded">
-                              {admin.status}
-                            </span>
-                          ) : (
-                            <span className="text-red-600 px-1 py-1 rounded">
-                              {admin.status}
-                            </span>
-                          )}
-                        </td>
-                        <td className="text-left py-3 px-4">
-                          {admin.status === "active" ? (
-                            <button className="bg-red-500 text-white px-2 py-1 rounded">
-                              Disable
-                            </button>
-                          ) : (
-                            <button className="bg-blue-500 text-white px-2 py-1 rounded">
-                              Enable
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>)
-                  }
-                  
-                </table>
-              </div>
-            </div>
+            <Switch>
+              <Route exact path={path} component={AdminList} />
+              <Route
+                exact
+                path={`${path}/admin/:adminId/profile`}
+                component={SingleAdmin}
+              />
+              <Route path={`${path}/*`} component={NotFound} />
+            </Switch>
           </main>
 
           <footer className="w-full bg-white text-right p-4">
@@ -140,7 +48,7 @@ function DashBoard() {
               href="https://davidgrzyb.com"
               className="underline"
             >
-              David Grzyb
+              DestinyJunior
             </a>
           </footer>
         </div>
