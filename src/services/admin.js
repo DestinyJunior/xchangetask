@@ -32,7 +32,11 @@ class AdminService {
 
   async disableAdmin(Id) {
     return await this.request
-      .put("v1/admin/" + Id + "/disable", { headers: authHeader() })
+      .put(
+        "v1/admin/" + Id + "/disable",
+        { status: "inactive" },
+        { headers: authHeader() }
+      )
       .then((response) => {
         return response.data;
       });
