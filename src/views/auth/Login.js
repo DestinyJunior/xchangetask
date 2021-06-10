@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AuthService from "../../services/auth"
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 
 
@@ -9,31 +9,35 @@ function Login() {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState("");
+
+    const history = useHistory();
+
 
 
     const loginUser = (e) => {
-        e.preventDefault();
-        console.log("clicked");
-        setIsLoading(true);
-        console.log({ email, password })
+      e.preventDefault();
+      setIsLoading(true);
+      // console.log({ email, password })
 
-        var data = {
-            email: email,
-            password: password
-        }
-        AuthService.adminLogin(data).then(res => {
-            // console.log(res)
-
-            setTimeout(() => { setIsLoading(false); }, 1000)
-            window.location = '/dashboard'
-        }).catch(err => {
-            console.log(err)
-            setIsLoading(false);
+      var data = {
+        email: email,
+        password: password,
+      };
+      AuthService.adminLogin(data)
+        .then((res) => {
+          // console.log(res)
+         
+          history.push("/dashboard");
+        //   setTimeout(() => {
+        //     setIsLoading(false);
+        //   }, 1000);
         })
-
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1000);
+        .catch((err) => {
+        //   console.log(err);
+          setIsLoading(false);
+          setError("Email and password not correct, check and try again.")
+        });
     };
 
     if (AuthService.isLoggedIn()) {
@@ -67,7 +71,9 @@ function Login() {
                             <form method="POST">
                                 <div className="sm:flex flex-col sm:items-center space-y-10">
                                     <h4 className="font-bold text-2xl text-green-ngo">Welcome back</h4>
-
+                                        {error != '' ? (
+                                            <div className="py-2 px-3 border border-red-300 rounded">{error}</div>
+                                        ): "" }
                                     <div className="w-full space-y-4">
                                         <div className="w-full">
                                             <input

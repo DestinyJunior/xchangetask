@@ -23,6 +23,19 @@ function AdminList() {
       });
   };
 
+  const disableAdmin = (Id) => {
+    setIsLoadingPage(true);
+    AdminService.disableAdmin(Id)
+      .then((res) => {
+        // console.log(res);
+        fetchAdmins();
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoadingPage(false);
+      });
+  };
+
   useEffect(() => {
     fetchAdmins();
   }, []);
@@ -30,7 +43,7 @@ function AdminList() {
   return (
     <div>
       <h1 className="text-3xl text-black pb-6">Admin List</h1>
- 
+
       <div className="w-full mt-6">
         <p className="text-xl pb-3 flex items-center"></p>
         <div className="bg-white overflow-auto">
@@ -112,7 +125,10 @@ function AdminList() {
                     </td>
                     <td className="text-left py-3 px-4">
                       {admin.status === "active" ? (
-                        <button className="bg-red-500 text-white px-2 py-1 rounded">
+                        <button
+                          onClick={() => disableAdmin(admin.id)}
+                          className="bg-red-500 text-white px-2 py-1 rounded"
+                        >
                           Disable
                         </button>
                       ) : (
@@ -123,11 +139,7 @@ function AdminList() {
                     </td>
                     <td className="text-left py-3 px-4">
                       <Link to={`${url}/admin/${admin.id}/profile`}>
-                        
-                        
                         Profile
-                      
-                      
                       </Link>
                     </td>
                   </tr>

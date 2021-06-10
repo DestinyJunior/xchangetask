@@ -1,25 +1,30 @@
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import "../../App.css";
 import { useState } from "react";
 import AuthService from "../../services/auth";
 
 function TopBar({ loginUser }) {
+   const history = useHistory();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const onMenuOpen = () => setIsMenuOpen(!isMenuOpen);
 
   // console.log(loginUser);
-  const signOut = () =>
-    AuthService.logout()
-      .then(() => {
-        localStorage.removeItem("u_p_d_1");
-        <Redirect to="/" />;
-      })
-      .catch((err) => {
-        console.log(err);
-        localStorage.removeItem("u_p_d_1");
-        <Redirect to="/" />;
-      });
+  const signOut = () =>  {
+       localStorage.removeItem("u_p_d_1");
+      history.push("/");
+  }
+ 
+    // AuthService.logout()
+    //   .then(() => {
+    //     localStorage.removeItem("u_p_d_1");
+    //     <Redirect to="/" />;
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     localStorage.removeItem("u_p_d_1");
+    //     <Redirect to="/" />;
+    //   });
 
   return (
     <header className="w-full items-center bg-white py-2 px-6 hidden sm:flex">
@@ -35,7 +40,7 @@ function TopBar({ loginUser }) {
         </button>
         {/* <button className="h-full w-full fixed inset-0 cursor-default"></button> */}
         {isMenuOpen ? (
-          <div className="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-52">
+          <div className="absolute bg-white rounded-lg shadow-lg py-2 px-2 mt-52">
             <a
               href="#"
               className="block px-4 py-2 account-link hover:text-white"
